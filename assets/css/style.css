@@ -1,215 +1,106 @@
-
-   body {
-    background-image: url('/assets/img/background.gif'); /* Update path if needed */
-    background-repeat: repeat; /* Repeats the image both horizontally and vertically */
-    background-position: top left; /* Ensures it starts from the top-left */
-    background-size: auto; /* Keeps the original image size */
-    color: #443737;
-    font-family: "Great Primer";
-    margin: 10px;
-    padding: 10px;
-    font-size: 25px;
-    text-align: center;
+body {
+  background-image: url('/assets/img/background2.jpg');
+  background-repeat: repeat;
+  background-position: top left;
+  background-size: auto;
+  color: #443737;
+  font-family: "Great Primer";
+  margin: 10px;
+  padding: 10px;
+  font-size: 25px;
+  text-align: center;
 }
-  *, :hover, select, a, focus {
-    cursor: url(cursor3.png), auto;
-    }	
-   .a {
-    width: 1500px;
-    text-align: center;
-    font-size: 30px;
-  }
-  .box {
-    margin: 15px;
-    background-color: #f9f0e6;
-    border: 2px solid black;
-    padding: 15px;
-    width: 850px;
-    text-align: center;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border-color: #443737;
-  }
-  .boxtwo {
-    background-color: #ffd0b1;
-    border: 2px solid black;
-    padding: 15px;
-    width: 480px;
-    text-align: center;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border-color: #443737;
-  }
-  .boxthree {
-    background-color: transparent;
-    border-color: #443737;
-    width: 1500px;
-    text-align: center;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .boxfour {
-    background-color: #ffd0b1;
-    background-size: 100%;
-    border: 2px solid black;
-    padding: 15px;
-    margin: 10px;
-    width: 200PX;
-    text-align: center;
-    display: block;
-    float: right;
-    border-color: #443737;
-  }
-  
-  .b {
-      position: relative;
-      margin: 1%;
-      float: left;
-      background-color: #fbeed9;
-    border: 2px solid black;
-    border-color: #443737;
-    width: 380px;
-    text-align: center;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-    h1 {
-      font-family: "MrDeHaviland";
-      text-align: center;
-      font-size: 90px;
-      margin: 0px;
-      padding: 0px;
-      font-weight: normal;
-    }
-    h4 {
-      font-family: "MrDeHaviland";
-      text-align: center;
-      font-size: 70px;
-      margin: 0px;
-      padding: 0px;
-      font-weight: normal;
-    }
-  a:link {
-    color: #443737;
-    background-color: transparent;
-    text-decoration: none;
-    outline: 0;
-    font-size: 20px;
-    
-  }
-  
-  a:visited {
-    color: #443737;
-    background-color: transparent;
-    text-decoration: none;
-    
-  }
-  
-  a:hover {
-    color: #A27597;
-    background-color: transparent;
-    text-decoration: none;
-  }
-  
-  p {
-    margin: 30px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
-  
-  ul { list-style-type: "✧ "; 
-  font-weight:normal;}
-  
-  ::-moz-selection,
-  ::selection {
-      background-color:#443737;
-      color: #f9f0e6;
-      }
-  
-  
-  table {
-      margin-left:auto; 
-      margin-right:auto;
-      font-weight:normal;
-    }
-    
-    @font-face{ 
-      font-family: "MrDeHaviland";
-      src: url('MrDeHaviland-Regular.eot');
-      src: url('MrDeHaviland-Regular.eot?#iefix') format('embedded-opentype'),
-           url('MrDeHaviland-Regular.woff') format('woff'),
-           url('MrDeHaviland-Regular.ttf') format('truetype'),
-           url('MrDeHaviland-Regular.svg#filename') format('svg');
-    }
-  
-  @font-face{ 
-      font-family: "Ambrosia";
-      src: url('ambrosia.eot');
-      src: url('ambrosia.eot?#iefix') format('embedded-opentype'),
-           url('ambrosia.woff') format('woff'),
-           url('ambrosia.ttf') format('truetype'),
-           url('ambrosia.svg#filename') format('svg');
-  }
-  
-  @font-face{ 
-      font-family: "Attic";
-      src: url('attic.regular.eot');
-      src: url('attic.regular.eot?#iefix') format('embedded-opentype'),
-           url('attic.regular.woff') format('woff'),
-           url('attic.regular.ttf') format('truetype'),
-           url('attic.regular.svg#filename') format('svg');
-  }
-      
-      @font-face{ 
-      font-family: "Old Standard";
-      src: url('OldStandard-Regular');
-      src: url('OldStandard-Regular?#iefix') format('embedded-opentype'),
-           url('OldStandard-Regular.woff') format('woff'),
-           url('OldStandard-Regular.ttf') format('truetype'),
-           url('OldStandard-Regular.svg#filename') format('svg');
-           font-weight: normal;
-         font-style: normal;
-  }
-  @font-face{ 
-      font-family: "Old Standard";
-      src: url('OldStandard-Italic');
-      src: url('OldStandard-Italic?#iefix') format('embedded-opentype'),
-           url('OldStandard-Italic.woff') format('woff'),
-           url('OldStandard-Italic.ttf') format('truetype'),
-           url('OldStandard-Italic.svg#filename') format('svg');
-           font-weight: normal;
-         font-style: italic;
-  }
-  @font-face{ 
-      font-family: "Great Primer";
-      src: url('im-fell-great-primer.roman');
-      src: url('im-fell-great-primer.roman?#iefix') format('embedded-opentype'),
-           url('im-fell-great-primer.roman.woff') format('woff'),
-           url('im-fell-great-primer.roman.ttf') format('truetype'),
-           url('im-fell-great-primer.roman.svg#filename') format('svg');
-           font-weight: normal;
-         font-style: normal;
-  }
-  
-  @font-face{ 
-      font-family: "Great Primer";
-      src: url('im-fell-great-primer.italic');
-      src: url('im-fell-great-primer.italic?#iefix') format('embedded-opentype'),
-           url('im-fell-great-primer.italic.woff') format('woff'),
-           url('im-fell-great-primer.italic.ttf') format('truetype'),
-           url('im-fell-great-primer.italic.svg#filename') format('svg');
-           font-weight: normal;
-         font-style: italic;
-  }
-  .test {
-  font-family: Old Standard;
-  }
-  
-  
-    
+
+.a {
+  width: 1500px;
+  text-align: center;
+  font-size: 30px;
+}
+
+.box {
+  margin: 15px;
+  background-color: #f9f0e6;
+  border: 2px solid #443737;
+  padding: 15px;
+  width: 850px;
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.boxfour {
+  background-color: #ffd0b1;
+  border: 2px solid #443737;
+  padding: 15px;
+  margin: 10px;
+  width: 200px;
+  text-align: center;
+  display: block;
+  float: left;
+}
+
+h1 {
+  font-family: "MrDeHaviland";
+  text-align: center;
+  font-size: 90px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+}
+
+h4 {
+  font-family: "MrDeHaviland";
+  text-align: center;
+  font-size: 70px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #443737;
+  font-size: 28px;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 0 15px;
+  display: inline-block;
+  transition: color 0.3s ease-in-out;
+}
+
+nav a:hover {
+  color: #A27597;
+}
+
+p {
+  margin: 10px 30px;
+}
+
+ul {
+  list-style-type: "✧ ";
+  font-weight: normal;
+}
+
+::-moz-selection,
+::selection {
+  background-color: #443737;
+  color: #f9f0e6;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  color: #443737;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+  color: #A27597;
+}
