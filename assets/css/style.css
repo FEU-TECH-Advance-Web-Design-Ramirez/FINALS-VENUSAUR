@@ -16,7 +16,7 @@
 }
 
 body {
-  background-image: url('/assets/img/bg.jpg');
+  background-image: url('assets/img/bg.jpg');
   background-repeat: repeat;
   background-position: top left;
   background-size: auto;
