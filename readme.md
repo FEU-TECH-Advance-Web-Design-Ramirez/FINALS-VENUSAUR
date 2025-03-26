@@ -6,14 +6,14 @@
 <div align="center">
   <a href="https://github.com/zyx-0314/">
   <!-- TODO: If you want to add logo or banner you can add it here -->
-    <img src="./assets/img/nyebe_white.png" alt="Nyebe" width="130" height="100">
+    
   </a>
 <!-- TODO: Change Title to the name of the title of your Project -->
-  <h3 align="center">Title</h3>
+  <h3 align="center">Alaga - Your Pet's Best Companion</h3>
 </div>
 <!-- TODO: Make a short description -->
 <div align="center">
-  Short Description. (Optional)
+
 </div>
 
 <br />
@@ -57,28 +57,44 @@
 
 ## Overview
 
-<!-- TODO: To be changed -->
-<!-- The following are just sample -->
-Description of the project in details.
+Alaga is a pet care platform that helps owners keep their pets healthy and happy. It offers tools for tracking health, managing vet appointments, and connecting with other pet lovers. You can also store pet health records, track vaccinations, and find nearby vets and services.
 
 Guiding Question:
-- What is the project
-- Whats the purpose
-- What are key components
+- What is the project? 
+    - Alaga is a pet care platform that enables users to track their pet’s health, schedule vet visits, and engage with a pet-loving community.
+- Whats the purpose? 
+    - To help pet owners stay informed with trusted resources on pet health and foster a community of responsible pet owners.
+- What are key components? 
+    - User Authentication: Secure login and registration using Firebase Authentication.
+
+    - Pet Health Tracker: Log pet health updates, vaccinations, and medical history.
+
+    - Vet Scheduler: Book and manage veterinary appointments with reminders.
+
+    - Community Forum: Discuss pet care topics and share experiences with other owners.
+    - Resource Library: Access a collection of trusted pet care guides.
+    - Admin Dashboard: Manage forum posts, vet listings, and user-reported issues.
 - What technology used and how it is used
+    - Frontend: React.js with Tailwind CSS for a clean and responsive UI.
+    - Backend: Node.js and Firebase Firestore for real-time data management.
+    - Database: Firestore for storing pet health data, appointments, and forum posts.
+    - Notifications: Real-time alerts for forum replies and vet appointment reminders.
 
 ### Key Components
 <!-- TODO: List of Key Components -->
 <!-- The following are just sample -->
-- MultiPage Website/Single Page Website
-- Parallax transition
-- Transactional
+- User Authentication (Firebase Auth)
+- Pet Health Tracking (Firestore)
+- Appointment Scheduling (Calendar-based UI)
+- Community Forum (Real-time discussions)
+- Admin Dashboard (Content moderation)
 
 ### Technology
 <!-- TODO: List of Technology Used -->
 ![HTML](https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white)
+
 
 ## Rules, Practices and Principles
 1. Always use `WD-` in the front of the Title of the Project for the Subject followed by your custom naming.
@@ -119,4 +135,7 @@ WD-ProjectName
 <!-- TODO: Add References -->
 | Title | Purpose | Link |
 |-|-|-|
-| Sample Title | Sample purpose would be here like this and this is the example of what it is. | trykolang.com |
+| Firebase Documentation | Official Firebase guide for authentication and Firestore | firebase.google.com
+| React Docs | Reference for React.js development | reactjs.org
+| Tailwind CSS Docs | Styling guide for Tailwind CSS | tailwindcss.com
+| Node.js Docs | Backend framework documentation | nodejs.org
