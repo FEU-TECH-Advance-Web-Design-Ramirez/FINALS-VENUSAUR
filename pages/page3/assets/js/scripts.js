@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
                      JSON.parse(localStorage.getItem('currentUser'));
     } catch (e) {
         console.error('Error parsing user data:', e);
-        window.location.href = '../page2/login.html';
+        window.location.href = '../index.html';
         return;
     }
     
     if (!currentUser) {
-        window.location.href = '../pages2/login.html';
+        window.location.href = '../index.html';
         return;
     }
     

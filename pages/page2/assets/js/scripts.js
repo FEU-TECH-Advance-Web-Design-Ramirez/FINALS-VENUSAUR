@@ -150,7 +150,7 @@ function initializeSignup() {
             
             // Show success message and redirect to login
             alert('Registration successful! You will now be redirected to login.');
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
             
         } catch (error) {
             console.error('Error saving user:', error);
