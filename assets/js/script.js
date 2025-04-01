@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const currentUser = sessionStorage.getItem('currentUser');
     if (!currentUser) {
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
     }
     
     // Display user info (example)
@@ -38,6 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Logout functionality
     document.getElementById('logoutBtn')?.addEventListener('click', function() {
         sessionStorage.removeItem('currentUser');
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
     });
 });

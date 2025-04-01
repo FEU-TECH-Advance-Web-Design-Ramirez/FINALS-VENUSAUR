@@ -225,7 +225,6 @@ function initializeLogin() {
                 // Store user session
                 sessionStorage.setItem('currentUser', JSON.stringify(user));
                 
-                // Redirect to index.html
                 window.location.href = '/FINALS-VENUSAUR/home.html';
             } else {
                 showError('Invalid email or password');
