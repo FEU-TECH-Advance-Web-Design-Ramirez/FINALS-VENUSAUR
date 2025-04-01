@@ -1,0 +1,421 @@
+/* Base Styles */
+:root {
+  --primary-color: #443737;
+  --secondary-color: #A27597;
+  --background-color: #f9f0e6;
+  --sidebar-color: #ffd0b1;
+  --text-color: #443737;
+  --white: #f1e7e1;
+  --shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url('/FINALS-VENUSAUR/pages/About_us_page/assets/img/bg.png');
+  background-repeat: repeat;
+  background-position: top left;
+  background-size: auto;
+  color: var(--text-color);
+  font-family: "Great Primer", Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.main-box {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+  border: 2px solid var(--primary-color);
+  margin: 15px 0;
+}
+
+@media (min-width: 768px) {
+  .main-box {
+      flex-direction: row;
+  }
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 15px 0;
+}
+
+.logo-img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (min-width: 576px) {
+  .logo-img {
+      width: 71%;
+  }
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: var(--sidebar-color);
+  border: 2px solid var(--primary-color);
+  padding: 15px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+      width: 250px;
+      flex-shrink: 0;
+  }
+}
+
+.logo-box {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Navigation */
+.navigation {
+  margin-top: 20px;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.nav-list a {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+  display: block;
+  padding: 5px 0;
+}
+
+.nav-list a:hover {
+  color: var(--secondary-color);
+}
+
+@media (min-width: 768px) {
+  .nav-list {
+      flex-direction: column;
+  }
+}
+
+/* Main Content */
+.content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.divider {
+  font-size: 1.5rem;
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* About Section */
+.about-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+@media (min-width: 576px) {
+  .about-section {
+      flex-direction: row;
+      align-items: flex-start;
+  }
+}
+
+.about-image {
+  width: 120px;
+  height: auto;
+  margin-right: 20px;
+  margin-bottom: 15px;
+}
+
+@media (min-width: 576px) {
+  .about-image {
+      margin-bottom: 0;
+  }
+}
+
+.about-text {
+  flex: 1;
+  text-align: left;
+}
+
+.about-text h1 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+/* Team Section */
+.team-section {
+  margin-top: 40px;
+}
+
+.team-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+}
+
+.team-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+}
+
+@media (min-width: 576px) {
+  .team-container {
+      flex-direction: row;
+      flex-wrap: wrap;
+  }
+}
+
+.team-member {
+  background: var(--white);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 100%;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease;
+}
+
+.team-member:hover {
+  transform: translateY(-5px);
+}
+
+@media (min-width: 576px) {
+  .team-member {
+      width: calc(50% - 20px);
+  }
+}
+
+@media (min-width: 992px) {
+  .team-member {
+      width: calc(33.333% - 20px);
+  }
+}
+
+.team-member img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--white);
+  margin-bottom: 15px;
+}
+
+.team-member h3 {
+  margin: 10px 0 5px;
+  font-size: 1.3rem;
+}
+
+.team-member .role {
+  font-weight: bold;
+  color: var(--secondary-color);
+  margin-bottom: 10px;
+}
+
+.team-member .description {
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+/* Add these new styles to your existing CSS */
+
+/* Hamburger Menu Styles */
+.hamburger {
+  display: none; /* Hidden by default on desktop */
+  padding: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  z-index: 1001;
+}
+
+.hamburger-box {
+  width: 30px;
+  height: 24px;
+  display: inline-block;
+  position: relative;
+}
+
+.hamburger-inner {
+  width: 100%;
+  height: 3px;
+  background-color: var(--primary-color);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.15s ease;
+}
+
+.hamburger-inner::before,
+.hamburger-inner::after {
+  content: "";
+  width: 100%;
+  height: 3px;
+  background-color: var(--primary-color);
+  position: absolute;
+  left: 0;
+  transition: transform 0.15s ease;
+}
+
+.hamburger-inner::before {
+  top: -8px;
+}
+
+.hamburger-inner::after {
+  bottom: -8px;
+}
+
+.hamburger.is-active .hamburger-inner {
+  transform: rotate(45deg);
+}
+
+.hamburger.is-active .hamburger-inner::before {
+  transform: translateY(8px) rotate(90deg);
+}
+
+.hamburger.is-active .hamburger-inner::after {
+  transform: translateY(-8px) rotate(90deg);
+  opacity: 0;
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-nav-content {
+  background-color: var(--sidebar-color);
+  border: 2px solid var(--primary-color);
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 10px;
+  position: relative;
+}
+
+.mobile-logo-box {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.mobile-logo {
+  max-width: 80%;
+  height: auto;
+}
+
+.mobile-navigation {
+  margin-top: 20px;
+}
+
+.mobile-nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mobile-nav-list a {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+  display: block;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid rgba(68, 55, 55, 0.2);
+}
+
+.mobile-nav-list a:hover {
+  color: var(--secondary-color);
+}
+
+/* Hide desktop sidebar on mobile */
+@media (max-width: 767px) {
+  .sidebar {
+      display: none;
+  }
+  
+  .hamburger {
+      display: block;
+  }
+  
+  .main-box {
+      margin-top: 0;
+  }
+}
+
+/* Show desktop sidebar on larger screens */
+@media (min-width: 768px) {
+  .mobile-nav {
+      display: none;
+  }
+  
+  .sidebar {
+      display: block;
+  }
+}
