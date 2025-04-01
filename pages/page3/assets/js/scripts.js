@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
                      JSON.parse(localStorage.getItem('currentUser'));
     } catch (e) {
         console.error('Error parsing user data:', e);
-        window.location.href = '../index.html';
+        window.location.href = 'FINALS-VENUSAUR/index.html';
         return;
     }
     
     if (!currentUser) {
-        window.location.href = '../index.html';
+        window.location.href = 'FINALS-VENUSAUR/index.html';
         return;
     }
     

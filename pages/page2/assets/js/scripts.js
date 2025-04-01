@@ -150,7 +150,7 @@ function initializeSignup() {
             
             // Show success message and redirect to login
             alert('Registration successful! You will now be redirected to login.');
-            window.location.href = 'index.html';
+            window.location.href = '/FINALS-VENUSAUR/index.html';
             
         } catch (error) {
             console.error('Error saving user:', error);
@@ -226,7 +226,7 @@ function initializeLogin() {
                 sessionStorage.setItem('currentUser', JSON.stringify(user));
                 
                 // Redirect to index.html
-                window.location.href = '../../index.html';
+                window.location.href = '/FINALS-VENUSAUR/index.html';
             } else {
                 showError('Invalid email or password');
             }
