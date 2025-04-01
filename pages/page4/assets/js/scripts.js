@@ -1,0 +1,129 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    
+    hamburger.addEventListener('click', function() {
+        this.classList.toggle('is-active');
+        mobileNav.classList.toggle('is-active');
+        
+        // Update aria-expanded attribute
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', !isExpanded);
+    });
+    
+    // Close mobile menu when clicking on a link
+    const navLinks = document.querySelectorAll('.mobile-nav-list a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            hamburger.classList.remove('is-active');
+            mobileNav.classList.remove('is-active');
+            hamburger.setAttribute('aria-expanded', 'false');
+        });
+    });
+});
+
+// Cart functionality with localStorage
+document.addEventListener('DOMContentLoaded', function() {
+    const cartIcon = document.getElementById('cartIcon');
+    const cartSidebar = document.getElementById('cartSidebar');
+    const closeCart = document.getElementById('closeCart');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    const cartItemsContainer = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const cartCount = document.querySelector('.cart-count');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    
+    let cart = JSON.parse(localStorage.getItem('cart')) || []; // Load saved cart from localStorage
+    let total = cart.reduce((sum, item) => sum + item.price, 0); // Calculate initial total from saved cart
+    
+    // Initialize cart count and total
+    cartTotal.textContent = `$${total.toFixed(2)}`;
+    cartCount.textContent = cart.length;
+    updateCartDisplay();
+    
+    // Toggle cart visibility when the cart icon is clicked
+    cartIcon.addEventListener('click', function() {
+        cartSidebar.classList.add('active');
+    });
+    
+    // Close cart when the close button is clicked
+    closeCart.addEventListener('click', function() {
+        cartSidebar.classList.remove('active');
+    });
+    
+    // Add to cart functionality
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productCard = this.closest('.product-card');
+            const productName = productCard.querySelector('h3').textContent;
+            const productPrice = parseFloat(productCard.querySelector('.product-price').textContent.replace('$', ''));
+            const productImg = productCard.querySelector('img').src;
+            
+            // Add item to cart
+            cart.push({
+                name: productName,
+                price: productPrice,
+                img: productImg
+            });
+            
+            // Update total
+            total += productPrice;
+            cartTotal.textContent = `$${total.toFixed(2)}`;
+            
+            // Update cart count
+            cartCount.textContent = cart.length;
+            
+            // Save cart to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Update cart items display
+            updateCartDisplay();
+            
+            // Show cart
+            cartSidebar.classList.add('active');
+        });
+    });
+    
+    // Update cart display
+    function updateCartDisplay() {
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="empty-cart-message">Your cart is empty</p>';
+            return;
+        }
+        
+        cartItemsContainer.innerHTML = '';
+        cart.forEach(item => {
+            const cartItem = document.createElement('div');
+            cartItem.className = 'cart-item';
+            cartItem.innerHTML = `
+                <img src="${item.img}" alt="${item.name}">
+                <div class="cart-item-details">
+                    <h4>${item.name}</h4>
+                    <p>$${item.price.toFixed(2)}</p>
+                </div>
+            `;
+            cartItemsContainer.appendChild(cartItem);
+        });
+    }
+    
+    // Checkout button
+    checkoutBtn.addEventListener('click', function() {
+        if (cart.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
+        alert(`Thank you for your order! Total: $${total.toFixed(2)}\nThis is a demo - no actual purchase will be made.`);
+        
+        // Reset cart
+        cart = [];
+        total = 0;
+        cartTotal.textContent = '$0.00';
+        cartCount.textContent = '0';
+        
+        // Save empty cart to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        updateCartDisplay();
+        cartSidebar.classList.remove('active');
+    });
+});
