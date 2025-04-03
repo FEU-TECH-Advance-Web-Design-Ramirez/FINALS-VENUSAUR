@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Alaga</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-header">
+            <img src="assets/img/paw-icon.png" alt="Alaga Logo" class="signup-logo">
+            <div class="signup-title">Create Account</div>
+            <div class="signup-subtitle">Join Alaga to care for your pets</div>
+        </div>
+        
+        <form id="signupForm">
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+            
+            <div class="form-group">
+                <label for="fullname" class="form-label">Full Name</label>
+                <input type="text" id="fullname" class="form-input" placeholder="Your name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
+            </div>
+            
+            <div class="form-group password-container">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" class="form-input" placeholder="Create password (min 8 characters)" required>
+                <button type="button" id="togglePassword" class="toggle-password">👁️</button>
+            </div>
+            
+            <div class="form-group password-container">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" required>
+                <button type="button" id="toggleConfirmPassword" class="toggle-password">👁️</button>
+            </div>
+            
+            <div class="pets-section">
+                <h3 class="pets-title">Your Pets</h3>
+                <div id="petsContainer">
+                    <!-- Pets will be added here -->
+                </div>
+                <button type="button" id="addPetBtn" class="add-pet-btn">
+                    <i class="fas fa-plus"></i> Add Another Pet
+                </button>
+            </div>
+            
+            <div class="form-group terms-container">
+                <input type="checkbox" id="agreeTerms" required>
+                <label for="agreeTerms">I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></label>
+            </div>
+            
+            <button type="submit" class="submit-btn">Sign Up</button>
+            
+            <div class="login-link">
+                Already have an account? <a href="../../login.html">Log in</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="assets/js/scripts.js"></script>
+</body>
+</html>

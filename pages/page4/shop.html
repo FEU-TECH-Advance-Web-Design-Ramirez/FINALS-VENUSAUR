@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="description" content="A pet health tracker, community forum, and veterinary scheduler to help pet owners care for their furry friends.">
+    <link rel="icon" href="/assets/img/paw-icon.png">
+    <title>Alaga - Your Pet's Best Companion</title>
+</head>
+<body>
+    <script src="assets/js/scripts.js"></script>
+    
+    <!-- Cart Icon -->
+    <div id="cartIcon" class="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-sidebar-header">
+            <button class="close-cart-btn" id="closeCart">×</button> <!-- Close button -->
+            <h3>Your Cart</h3>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will go here -->
+        </div>
+        <div class="cart-total" id="cartTotal">₱0.00</div>
+        <button class="checkout-btn" id="checkoutBtn">Checkout</button>
+    </div>
+
+    <header class="header">
+        <a href="index.html" class="logo-link">
+            <img src="assets/img/title.png" class="logo-img" alt="Alaga - Your Pet's Best Companion">
+        </a>
+        <button class="hamburger" aria-label="Menu" aria-expanded="false">
+            <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+            </span>
+        </button>
+    </header>
+    
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-content">
+            <div class="mobile-logo-box">
+                <img src="assets/img/logo.png" class="mobile-logo" alt="Alaga Logo">
+            </div>
+            <nav class="mobile-navigation">
+                <ul class="mobile-nav-list">
+                    <li><a href="../../home.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="forum.html">Community Forum</a></li>
+                    <li><a href="../scheduler/scheduler.html">Vet Scheduler</a></li>
+                    <li><a href="shop.html">Pet Care Resources</a></li>
+                    <li><a href="../page3/profile.html">Profile</a></li>
+                    <li><a href="index.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="main-box">
+            <aside class="sidebar">
+                <div class="logo-box">
+                    <img src="assets/img/logo.png" class="logo" alt="Alaga Logo">
+                </div>
+                <nav class="navigation">
+                    <ul class="nav-list">
+                        <li><a href="../../home.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="forum.html">Community Forum</a></li>
+                        <li><a href="../scheduler/scheduler.html">Vet Scheduler</a></li>
+                        <li><a href="shop.html">Pet Care Resources</a></li>
+                        <li><a href="../page3/profile.html">Profile</a></li>
+                        <li><a href="index.html">About Us</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="content">
+                <div class="divider">༻✧༺</div>
+                
+                <section class="products-section">
+                    <h2 class="section-title">Our Pet Products</h2>
+                    
+                    <div class="products-grid">
+                        <!-- Product 1 -->
+                        <div class="product-card">
+                            <div class="product-image-container">
+                                <img src="assets/img/dog-food.png" alt="Premium Dog Food">
+                            </div>
+                            <div class="product-info">
+                                <h3>Premium Dog Food</h3>
+                                <p class="product-description">Nutritious and delicious food for your canine companion.</p>
+                                <p class="product-price">₱1,200.00</p>
+                                <button type="button" class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 2 -->
+                        <div class="product-card">
+                            <div class="product-image-container">
+                                <img src="assets/img/cat-toy.jpg" alt="Interactive Cat Toy">
+                            </div>
+                            <div class="product-info">
+                                <h3>Interactive Cat Toy</h3>
+                                <p class="product-description">Keeps your feline friend entertained for hours.</p>
+                                <p class="product-price">₱750.00</p>
+                                <button type="button" class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 3 -->
+                        <div class="product-card">
+                            <div class="product-image-container">
+                                <img src="assets/img/cat-food.jpg" alt="Premium Cat Food">
+                            </div>
+                            <div class="product-info">
+                                <h3>Premium Cat Food</h3>
+                                <p class="product-description">Nutritious and delicious food for your feline companion.</p>
+                                <p class="product-price">₱2,500.00</p>
+                                <button type="button" class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 4 -->
+                        <div class="product-card">
+                            <div class="product-image-container">
+                                <img src="assets/img/pet-grooming.jpg" alt="Pet Grooming Kit">
+                            </div>
+                            <div class="product-info">
+                                <h3>Pet Grooming Kit</h3>
+                                <p class="product-description">Everything you need to keep your pet looking their best.</p>
+                                <p class="product-price">₱1,600.00</p>
+                                <button type="button" class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 5 -->
+                        <div class="product-card">
+                            <div class="product-image-container">
+                                <img src="assets/img/cat-bed.jpg" alt="Cat Bed">
+                            </div>
+                            <div class="product-info">
+                                <h3>Cat Bed</h3>
+                                <p class="product-description">A soft and cozy bed for your feline companion.</p>
+                                <p class="product-price">₱1,800.00</p>
+                                <button type="button" class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Product 6 -->
+                        <div class="product-card">
+                            <div class="product-image-container">
+                                <img src="assets/img/dog-leash.jpg" alt="Durable Dog Leash">
+                            </div>
+                            <div class="product-info">
+                                <h3>Durable Dog Leash</h3>
+                                <p class="product-description">A strong leash for your energetic dog.</p>
+                                <p class="product-price">₱850.00</p>
+                                <button type="button" class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p><i>&#9825; Lovingly crafted by the Venusaur Team. 100% pet-friendly. &#9825;</i></p>
+    </footer>
+
+</body>
+</html>

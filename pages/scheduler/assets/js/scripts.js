@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const mobileNav = document.getElementById('mobileNav');
@@ -19,25 +20,5 @@ document.addEventListener('DOMContentLoaded', function() {
             mobileNav.classList.remove('is-active');
             hamburger.setAttribute('aria-expanded', 'false');
         });
-    });
-});
-
-
-
-// Check authentication
-document.addEventListener('DOMContentLoaded', function() {
-    const currentUser = sessionStorage.getItem('currentUser');
-    if (!currentUser) {
-        window.location.href = 'index.html';
-    }
-    
-    // Display user info (example)
-    const user = JSON.parse(currentUser);
-    console.log('Logged in as:', user.name);
-    
-    // Logout functionality
-    document.getElementById('logoutBtn')?.addEventListener('click', function() {
-        sessionStorage.removeItem('currentUser');
-        window.location.href = 'index.html';
     });
 });
