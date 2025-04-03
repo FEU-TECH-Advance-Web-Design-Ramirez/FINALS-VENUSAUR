@@ -26,16 +26,12 @@
 
 **Feature Interaction:**
 - **Pet Health Tracker:** Allows users to log pet health updates, vaccinations, and medical history.
-- **Community Forum:** Discussion threads where users can ask questions and share pet care experiences.
-- **Vet Scheduler:** Appointment booking system with notifications for upcoming visits.
+- **Vet Scheduler:** Appointment booking system with notifications.
 - **Resource Library:** Collection of trusted pet care guides.
 
-**Community Engagement:**
-- **Forum:** Users can browse, create threads, and reply to discussions.
-- **Real-Time Notifications:** Users receive updates on replies, vet reminders, and trending discussions.
 
 **Admin Workflow:**
-- **Admin Dashboard:** Moderators can manage forum posts, vet listings, and user-reported issues.
+- **Admin Dashboard:** Moderators can manage vet listings and user-reported issues.
 - **Notification System:** Alerts for new content moderation requests.
 
 ---
@@ -49,9 +45,8 @@
 - **Profile:** User settings and pet information.
 
 **Screen Layouts:**
-- **Home Screen:** Feature-rich dashboard summarizing pet health, upcoming appointments, and forum activity.
+- **Home Screen:** Feature-rich dashboard summarizing pet health and upcoming appointments.
 - **Vet Scheduler:** Calendar-based UI with appointment details and reminders.
-- **Forum Screen:** Thread list with sorting and filtering.
 - **Resource Library:** Organized categories with pet care articles.
 - **Profile Screen:** User and pet management settings.
 
@@ -102,20 +97,6 @@
 - vet_name
 - notes
 
-**Forum_Thread**
-- thread_id (Primary Key)
-- user_id (Foreign Key - User)
-- title
-- content
-- timestamp
-
-**Forum_Reply**
-- reply_id (Primary Key)
-- thread_id (Foreign Key - Forum_Thread)
-- user_id (Foreign Key - User)
-- comment
-- timestamp
-
 ---
 
 ### 6. Dataflow
@@ -131,9 +112,6 @@
 - Users book appointments through the scheduling system.
 - **Dataflow:** Appointment data → Firestore → User notifications for reminders.
 
-**Community Forum:**
-- Users create posts and replies, which are stored in Firestore.
-- **Dataflow:** User inputs (threads/replies) → Firestore → Real-time updates in UI.
 
 **Admin Confirmation Workflow:**
 - Admins review forum reports and vet listings for approval.
@@ -142,5 +120,5 @@
 ---
 
 ### Summary
-**Alaga** aims to simplify pet care by integrating health tracking, vet scheduling, and a supportive pet-loving community into one intuitive app. With Firebase backend and a clean, engaging UI, this platform provides an all-in-one solution for responsible pet owners.
+**Alaga** aims to simplify pet care by integrating health tracking, vet scheduling, and a supportive pet-loving community into one intuitive app. With Firebase backend, Calendly API for scheduling, and a clean, engaging UI, this platform provides an all-in-one solution for responsible pet owners.
 
