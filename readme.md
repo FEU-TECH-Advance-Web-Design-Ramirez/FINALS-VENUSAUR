@@ -57,37 +57,31 @@
 
 ## Overview
 
-Alaga is a pet care platform that helps owners keep their pets healthy and happy. It offers tools for tracking health, managing vet appointments, and connecting with other pet lovers. You can also store pet health records, track vaccinations, and find nearby vets and services.
+Alaga is a pet care platform designed to provide users with personalized pet health tools, professional resources, and a supportive community. It integrates features such as pet health tracking, vet appointment scheduling, and a resource library with professional support through appointment scheduling and a pet care forum.
 
 Guiding Question:
 - What is the project? 
-    - Alaga is a pet care platform that enables users to track their pet’s health, schedule vet visits, and engage with a pet-loving community.
+    - Alaga is a digital platform aimed at supporting pet owners through pet health tracking, vet scheduling, and access to professional resources.
 - Whats the purpose? 
-    - To help pet owners stay informed with trusted resources on pet health and foster a community of responsible pet owners.
+    - To provide an accessible, research-backed tool that helps pet owners manage their pets’ health, reduce stress, and connect with a community of pet lovers.
 - What are key components? 
-    - User Authentication: Secure login and registration using Firebase Authentication.
-
-    - Pet Health Tracker: Log pet health updates, vaccinations, and medical history.
-
-    - Vet Scheduler: Book and manage veterinary appointments with reminders.
-
-    - Community Forum: Discuss pet care topics and share experiences with other owners.
-    - Resource Library: Access a collection of trusted pet care guides.
-    - Admin Dashboard: Manage forum posts, vet listings, and user-reported issues.
+    - Personal Appointment Reminder – Users can schedule vet visits and receive reminders.
+    - Pet Health Tracker – Keep records of vaccinations, medical history, and pet activities.
+    - Pet Care Resources – Listings of clinics, pet stores, and educational materials.
+    - Account Creation & Secure Data Management – Secure login, user profiles, and encrypted pet data.
 - What technology used and how it is used
-    - Frontend: React.js with Tailwind CSS for a clean and responsive UI.
-    - Backend: Node.js and Firebase Firestore for real-time data management.
-    - Database: Firestore for storing pet health data, appointments, and forum posts.
-    - Notifications: Real-time alerts for forum replies and vet appointment reminders.
+    - Frontend: HTML, CSS, JavaScript with responsive design.
+    - Backend: Firebase Authentication for secure login management.
+    - Database: Firestore for storing user and pet data.
+    - Notifications: Calendly API for appointment scheduling.
 
 ### Key Components
 <!-- TODO: List of Key Components -->
 <!-- The following are just sample -->
-- User Authentication (Firebase Auth)
-- Pet Health Tracking (Firestore)
-- Appointment Scheduling (Calendar-based UI)
-- Community Forum (Real-time discussions)
-- Admin Dashboard (Content moderation)
+- Customizable User Dashboard – Allows users to track pet health, manage appointments, and access resources.
+- Secure Authentication & User Management – Session-based authentication with Firebase.
+- Appointment Scheduling System – CRUD functionality for vet visits and reminders using Calendly API.
+- Resource Listings – Database of veterinarians, pet stores, and care guides.
 
 ### Technology
 <!-- TODO: List of Technology Used -->
@@ -136,6 +130,6 @@ WD-ProjectName
 | Title | Purpose | Link |
 |-|-|-|
 | Firebase Documentation | Official Firebase guide for authentication and Firestore | firebase.google.com
-| React Docs | Reference for React.js development | reactjs.org
-| Tailwind CSS Docs | Styling guide for Tailwind CSS | tailwindcss.com
-| Node.js Docs | Backend framework documentation | nodejs.org
+| HTML & CSS Guide | Web development knowledge | w3schools.com
+| Calendly API Docs | Appointment scheduling | calendly.com
+| Pet Health Research | Scientific support for pet care strategies | avma.org
