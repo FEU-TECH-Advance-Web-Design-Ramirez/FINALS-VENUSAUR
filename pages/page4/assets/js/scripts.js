@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const cartCount = document.querySelector('.cart-count');
     const checkoutBtn = document.getElementById('checkoutBtn');
 
+    // Load cart from localStorage or initialize an empty cart
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     let total = cart.reduce((sum, item) => sum + item.price, 0);
 
@@ -45,8 +46,15 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function() {
             const productCard = this.closest('.product-card');
             const productName = productCard.querySelector('h3').textContent;
-            const productPrice = parseFloat(productCard.querySelector('.product-price').textContent.replace('₱', '').trim());
+            const productPriceText = productCard.querySelector('.product-price').textContent.trim();
+            const productPrice = parseFloat(productPriceText.replace('₱', '').replace(',', ''));
             const productImg = productCard.querySelector('img').src;
+
+            // Ensure the price is valid
+            if (isNaN(productPrice)) {
+                console.error(`Invalid price for ${productName}: ${productPriceText}`);
+                return; // Exit if the price is invalid
+            }
 
             // Add item to cart
             cart.push({
