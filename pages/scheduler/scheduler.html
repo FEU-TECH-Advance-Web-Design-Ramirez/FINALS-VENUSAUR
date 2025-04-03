@@ -86,7 +86,6 @@
             <nav class="mobile-navigation">
                 <ul class="mobile-nav-list">
                     <li><a href="../../home.html">Home</a></li>
-                    <li><a href="forum.html">Community Forum</a></li>
                     <li><a href="scheduler.html" class="active">Vet Scheduler</a></li>
                     <li><a href="../page4/shop.html">Pet Care Resources</a></li>
                     <li><a href="../page3/profile.html">Profile</a></li>
@@ -105,7 +104,6 @@
                 <nav class="navigation">
                     <ul class="nav-list">
                         <li><a href="../../home.html">Home</a></li>
-                        <li><a href="forum.html">Community Forum</a></li>
                         <li><a href="scheduler.html" class="active">Vet Scheduler</a></li>
                         <li><a href="../page4/shop.html">Pet Care Resources</a></li>
                         <li><a href="../page3/profile.html">Profile</a></li>
@@ -141,30 +139,23 @@
                         <!-- Extended Consultation -->
                         <div class="service-card" onclick="bookAppointment('30min')">
                             <i class="fas fa-stethoscope"></i>
-                            <h3>Extended Consultation</h3>
+                            <h3>Vaccination</h3>
+                            <p>For comprehensive exams and complex health issues</p>
+                            <button class="book-btn">Book Now</button>
+                        </div>
+
+                        <div class="service-card" onclick="bookAppointment('pet-checkup')">
+                            <i class="fas fa-stethoscope"></i>
+                            <h3>Pet Checkup</h3>
                             <p>For comprehensive exams and complex health issues</p>
                             <button class="book-btn">Book Now</button>
                         </div>
                     </div>
+
                     
-                    <div class="scheduler-embed">
-                        <h2>Available Time Slots</h2>
-                        <!-- Calendly inline widget -->
-                        <div class="calendly-inline-widget" 
-                             data-url="https://calendly.com/ivnbdngn5" 
-                             style="min-width:320px;height:630px;"></div>
-                    </div>
                     
-                    <div class="appointment-management">
-                        <h2>Your Appointments</h2>
-                        <div id="appointment-list" class="appointment-list">
-                            <!-- Appointments will be loaded here by JavaScript -->
-                        </div>
-                        
-                        <div id="api-response" class="api-response-container">
-                            <!-- API responses will appear here -->
-                        </div>
-                    </div>
+
+
                     
                     <div class="vet-info">
                         <h2>Our Veterinary Partners</h2>

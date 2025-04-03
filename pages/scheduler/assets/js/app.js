@@ -6,17 +6,23 @@ const CALENDLY_USER = "ivnbdngn5";
 const EVENT_URLS = {
     store: `https://api.calendly.com/event_types/${CALENDLY_USER}/store-visit`,
     clinic: `https://api.calendly.com/event_types/${CALENDLY_USER}/clinic-visit`,
-    extended: `https://api.calendly.com/event_types/${CALENDLY_USER}/30min`
+    extended: `https://api.calendly.com/event_types/${CALENDLY_USER}/30min`,
+    petcheckup: `https://api.calendly.com/event_types/${CALENDLY_USER}/pet-checkup`
 };
 
 // DOM Elements
 const appointmentList = document.getElementById('appointment-list');
 const apiResponse = document.getElementById('api-response');
 
+
+
+// Track all appointments (including newly booked ones)
+let allAppointments = [...serverAppointments];
+
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    // Load any existing appointments (for demo purposes)
-    loadDemoAppointments();
+    // Load appointments from server
+    loadAppointments();
     
     // Set up hamburger menu
     const hamburger = document.querySelector('.hamburger');
@@ -44,7 +50,73 @@ document.addEventListener('DOMContentLoaded', function() {
         prefill: {},
         utm: {}
     });
+
+    // Listen for booking events
+    window.addEventListener('message', function(e) {
+        if (e.data.event && e.data.event === 'calendly.event_scheduled') {
+            handleNewBooking(e.data.payload);
+        }
+    });
 });
+
+function handleNewBooking(payload) {
+    const newAppointment = processCalendlyEvent(payload);
+    
+    // Add to our tracking array
+    allAppointments.push(newAppointment);
+    
+    // Save to our "server"
+    saveAppointmentToAPI(newAppointment)
+        .then(() => {
+            // Add to UI
+            addAppointmentToList(newAppointment);
+            showNotification('Appointment booked successfully!', 'success');
+        })
+        .catch(error => {
+            showError(error);
+        });
+}
+
+// Simulated API functions
+async function fetchAppointments() {
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Return only non-cancelled appointments
+    return allAppointments.filter(app => !app.cancelled);
+}
+
+async function cancelAppointmentOnServer(id) {
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    // Find and mark appointment as cancelled
+    const appointment = allAppointments.find(app => app.id === id);
+    if (appointment) {
+        appointment.cancelled = true;
+        return { success: true };
+    }
+    throw new Error('Appointment not found');
+}
+
+// Load appointments from server
+async function loadAppointments() {
+    try {
+        const appointments = await fetchAppointments();
+        
+        // Clear existing appointments
+        appointmentList.innerHTML = '';
+        
+        if (appointments.length > 0) {
+            appointments.forEach(app => addAppointmentToList(app));
+        } else {
+            appointmentList.innerHTML = '<p class="no-appointments">No appointments found</p>';
+        }
+    } catch (error) {
+        showError(error);
+        appointmentList.innerHTML = '<p class="no-appointments">No appointments found</p>';
+    }
+}
 
 // Enhanced booking function with API integration
 async function bookAppointment(eventType) {
@@ -54,18 +126,6 @@ async function bookAppointment(eventType) {
             Calendly.initPopupWidget({
                 url: `https://calendly.com/${CALENDLY_USER}/${eventType}`
             });
-            
-            // Listen for booking completion
-            window.addEventListener('message', function(e) {
-                if (e.data.event && e.data.event === 'calendly.event_scheduled') {
-                    const appointment = processCalendlyEvent(e.data.payload);
-                    saveAppointmentToAPI(appointment);
-                    addAppointmentToList(appointment);
-                    
-                    // Show success notification
-                    showNotification(`Appointment booked successfully!`, 'success');
-                }
-            }, { once: true }); // Only listen once
         }
     } catch (error) {
         showError(error);
@@ -81,7 +141,8 @@ function processCalendlyEvent(payload) {
         name: payload.invitee.name || 'No name provided',
         email: payload.invitee.email,
         status: 'confirmed',
-        event_uri: payload.event.uri
+        event_uri: payload.event.uri,
+        cancelled: false
     };
 }
 
@@ -90,6 +151,9 @@ async function saveAppointmentToAPI(appointment) {
     try {
         // Simulate API call delay
         await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // In a real app, this would POST to your server
+        serverAppointments.push(appointment);
         
         const response = {
             status: 'success',
@@ -138,21 +202,27 @@ async function cancelAppointment(id, eventUri) {
             // const result = await cancelAppointmentInCalendly(eventUri);
             
             // For demo purposes, we'll simulate cancellation
-            const itemToRemove = document.querySelector(`.appointment-item[data-id="${id}"]`);
+            await new Promise(resolve => setTimeout(resolve, 800));
             
+            // Update our server
+            const serverResult = await cancelAppointmentOnServer(id);
+            
+            // Remove from UI
+            const itemToRemove = document.querySelector(`.appointment-item[data-id="${id}"]`);
             if (itemToRemove) {
-                // Simulate API delay
-                await new Promise(resolve => setTimeout(resolve, 800));
-                
                 itemToRemove.remove();
-                displayApiResponse({
-                    status: 'success',
-                    message: `Appointment cancelled successfully`
-                });
-                
-                showNotification('Appointment cancelled!', 'success');
-            } else {
-                throw new Error('Appointment not found');
+            }
+            
+            displayApiResponse({
+                status: 'success',
+                message: `Appointment cancelled successfully`
+            });
+            
+            showNotification('Appointment cancelled!', 'success');
+            
+            // If no appointments left, show empty state
+            if (appointmentList.children.length === 0) {
+                appointmentList.innerHTML = '<p class="no-appointments">No appointments found</p>';
             }
         }
     } catch (error) {
@@ -175,14 +245,27 @@ function addAppointmentToList(appointment) {
         <p><strong>When:</strong> ${appointment.date}</p>
         <p><strong>For:</strong> ${appointment.name}</p>
         <p><strong>Email:</strong> ${appointment.email}</p>
-        <button class="cancel-btn">Cancel Appointment</button>
+        <div class="appointment-actions">
+            <button class="reschedule-btn">Reschedule</button>
+            <button class="cancel-btn">Cancel</button>
+        </div>
     `;
     
-    // Add event listener for cancellation
-    const cancelBtn = appointmentItem.querySelector('.cancel-btn');
-    cancelBtn.addEventListener('click', () => cancelAppointment(appointment.id, appointment.event_uri));
+    // Add event listeners
+    appointmentItem.querySelector('.reschedule-btn').addEventListener('click', 
+        () => rescheduleAppointment(appointment.event_uri));
     
-    appointmentList.prepend(appointmentItem); // Add newest appointments at the top
+    appointmentItem.querySelector('.cancel-btn').addEventListener('click', 
+        () => cancelAppointment(appointment.id, appointment.event_uri));
+    
+    appointmentList.prepend(appointmentItem);
+}
+
+// Function to handle rescheduling
+function rescheduleAppointment(eventUri) {
+    Calendly.initPopupWidget({
+        url: `https://calendly.com/app/scheduled_events/${eventUri}/reschedule`
+    });
 }
 
 // Display API responses
@@ -225,33 +308,7 @@ function showError(error) {
     showNotification(`Error: ${error.message}`, 'error');
 }
 
-// Demo functions for school project
-function loadDemoAppointments() {
-    const demoAppointments = [
-        {
-            id: 'demo-1',
-            type: 'Store Visit',
-            date: new Date(Date.now() + 86400000).toLocaleString(),
-            name: 'Sample User',
-            email: 'sample@school.edu',
-            status: 'confirmed',
-            event_uri: 'demo-uri-1'
-        },
-        {
-            id: 'demo-2',
-            type: 'Clinic Visit',
-            date: new Date(Date.now() + 172800000).toLocaleString(),
-            name: 'Test User',
-            email: 'test@school.edu',
-            status: 'pending',
-            event_uri: 'demo-uri-2'
-        }
-    ];
-    
-    demoAppointments.forEach(app => addAppointmentToList(app));
-}
-
-// Add this CSS for notifications
+// Add CSS for notifications and empty state
 const style = document.createElement('style');
 style.textContent = `
 .notification {
@@ -282,6 +339,28 @@ style.textContent = `
     animation: fade-out 0.5s ease-out forwards;
 }
 
+.no-appointments {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+.appointment-item {
+    background: white;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.appointment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
 @keyframes slide-in {
     from { transform: translateX(100%); }
     to { transform: translateX(0); }
@@ -291,41 +370,25 @@ style.textContent = `
     from { opacity: 1; }
     to { opacity: 0; }
 }
+
+.reschedule-btn {
+    background: #17a2b8;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.reschedule-btn:hover {
+    background: #138496;
+}
+
+.appointment-actions {
+    margin-top: 1rem;
+    display: flex;
+}
 `;
 document.head.appendChild(style);
-
-// Function to handle rescheduling
-function rescheduleAppointment(eventUri) {
-    Calendly.initPopupWidget({
-        url: `https://calendly.com/app/scheduled_events/${eventUri}/reschedule`
-    });
-}
-
-// Update your addAppointmentToList function:
-function addAppointmentToList(appointment) {
-    const appointmentItem = document.createElement('div');
-    appointmentItem.className = `appointment-item ${appointment.status}`;
-    appointmentItem.dataset.id = appointment.id;
-    
-    appointmentItem.innerHTML = `
-        <div class="appointment-header">
-            <h4>${appointment.type}</h4>
-            <span class="status-badge ${appointment.status}">${appointment.status}</span>
-        </div>
-        <p><strong>When:</strong> ${appointment.date}</p>
-        <p><strong>For:</strong> ${appointment.name}</p>
-        <div class="appointment-actions">
-            <button class="reschedule-btn">Reschedule</button>
-            <button class="cancel-btn">Cancel</button>
-        </div>
-    `;
-    
-    // Add event listeners
-    appointmentItem.querySelector('.reschedule-btn').addEventListener('click', 
-        () => rescheduleAppointment(appointment.event_uri));
-    
-    appointmentItem.querySelector('.cancel-btn').addEventListener('click', 
-        () => cancelAppointment(appointment.id, appointment.event_uri));
-    
-    appointmentList.prepend(appointmentItem);
-}
