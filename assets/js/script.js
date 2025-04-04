@@ -24,20 +24,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// Check authentication
-document.addEventListener('DOMContentLoaded', function() {
-    const currentUser = sessionStorage.getItem('currentUser');
-    if (!currentUser) {
-        window.location.href = 'index.html';
-    }
-    
-    // Display user info (example)
-    const user = JSON.parse(currentUser);
-    console.log('Logged in as:', user.name);
-    
-    // Logout functionality
-    document.getElementById('logoutBtn')?.addEventListener('click', function() {
-        sessionStorage.removeItem('currentUser');
-        window.location.href = 'index.html';
-    });
-});

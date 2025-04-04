@@ -8,55 +8,54 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="login-container">
-      <div class="login-header">
-        <img src="assets/img/paw-icon.png" alt="Alaga Logo" class="login-logo" />
-        <h1 class="login-title">Welcome Back</h1>
-        <p class="login-subtitle">Sign in to continue caring for your pets</p>
-      </div>
-  
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="loginEmail" class="form-label">Email</label>
-          <input type="email" id="loginEmail" class="form-input" placeholder="your@email.com" required />
-        </div>
-  
-        <div class="form-group password-container">
-          <label for="loginPassword" class="form-label">Password</label>
-          <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required />
-          <button type="button" id="toggleLoginPassword" class="toggle-password" aria-label="Toggle Password Visibility">👁️</button>
-        </div>
-  
-        <div class="form-options">
-          <label class="remember-me">
-            <input type="checkbox" id="rememberMe" /> Remember me
-          </label>
-          <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
-        </div>
-  
-        <button type="submit" class="submit-btn">Log In</button>
-  
-        <div class="signup-link">
-          Don't have an account? <a href="pages/page2/signup.html">Sign up</a>
-        </div>
-  
-        <div id="loginError" class="error-message" style="display: none;"></div>
-      </form>
+  <div class="login-container">
+    <div class="login-header">
+      <img src="assets/img/paw-icon.png" alt="Alaga Logo" class="login-logo" />
+      <h1 class="login-title">Welcome Back</h1>
+      <p class="login-subtitle">Sign in to continue caring for your pets</p>
     </div>
-  
-    <!-- 👁️ Password Toggle -->
-    <script>
-      const togglePassword = document.getElementById("toggleLoginPassword");
-      const passwordInput = document.getElementById("loginPassword");
-      togglePassword?.addEventListener("click", () => {
-        const isVisible = passwordInput.type === "text";
-        passwordInput.type = isVisible ? "password" : "text";
-        togglePassword.textContent = isVisible ? "👁️" : "🙈";
-      });
-    </script>
-  
-    <!-- ✅ Working Login Logic -->
-    <script>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginEmail" class="form-label">Email</label>
+        <input type="email" id="loginEmail" class="form-input" placeholder="your@email.com" required />
+      </div>
+
+      <div class="form-group password-container">
+        <label for="loginPassword" class="form-label">Password</label>
+        <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required />
+        <button type="button" id="toggleLoginPassword" class="toggle-password" aria-label="Toggle Password Visibility">👁️</button>
+      </div>
+
+      <div class="form-options">
+        <label class="remember-me">
+          <input type="checkbox" id="rememberMe" /> Remember me
+        </label>
+        <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="submit-btn">Log In</button>
+
+      <div class="signup-link">
+        Don't have an account? <a href="pages/page2/signup.html">Sign up</a>
+      </div>
+
+      <div id="loginError" class="error-message" style="display: none;"></div>
+    </form>
+  </div>
+
+  <script>
+    const togglePassword = document.getElementById("toggleLoginPassword");
+    const passwordInput = document.getElementById("loginPassword");
+    togglePassword?.addEventListener("click", () => {
+      const isVisible = passwordInput.type === "text";
+      passwordInput.type = isVisible ? "password" : "text";
+      togglePassword.textContent = isVisible ? "👁️" : "🙈";
+    });
+  </script>
+
+  <!-- ✅ Updated Login Logic -->
+  <script>
 document.addEventListener("DOMContentLoaded", () => {
   const API_BASE_URL = "https://demo-api-skills.vercel.app/api/PetLover";
   const loginForm = document.getElementById("loginForm");
@@ -66,66 +65,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value.trim();
-    const errorElement = document.getElementById("loginError");
-    const submitButton = loginForm.querySelector(".submit-btn");
-
-    errorElement.style.display = "none";
-
-    if (!email || !password) {
-      errorElement.textContent = "Please enter both email and password.";
-      errorElement.style.display = "block";
-      return;
-    }
+    const rememberMe = document.getElementById("rememberMe").checked;
 
     try {
+      // Show loading state
+      const submitButton = loginForm.querySelector(".submit-btn");
       submitButton.disabled = true;
       submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
 
       const response = await fetch(`${API_BASE_URL}/users`);
       const users = await response.json();
+      const user = users.find(u => u.email === email);
 
-      const user = users.find((u) => u.email === email);
-
-      if (!user) {
-        throw new Error("User not found.");
+      if (!user || password !== localStorage.getItem("userPassword")) {
+        throw new Error("Invalid email or password");
       }
 
-      // 🚨 WARNING: Simulated password check — actual backend doesn't store it
-      const savedPassword = localStorage.getItem("userPassword");
+      // Create complete user object
+      const currentUser = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        pets: [],
+        createdAt: new Date().toISOString()
+      };
 
-    if (password !== savedPassword) {
-    throw new Error("Incorrect password.");
-    }
-      localStorage.setItem("userId", user.id);
-      localStorage.setItem("userEmail", user.email);
-      localStorage.setItem("userName", user.name);
-
-      if (document.getElementById("rememberMe").checked) {
-        localStorage.setItem("rememberMe", "true");
-      } else {
-        localStorage.removeItem("rememberMe");
+      // Store user data properly
+      if (rememberMe) {
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
       }
+      sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
+      sessionStorage.setItem("justLoggedIn", "true");
 
-      alert(`🎉 Welcome, ${user.name}!`);
+      // Redirect to home
       window.location.href = "home.html";
 
     } catch (err) {
-      console.error("Login failed:", err);
-      errorElement.textContent = err.message || "Login failed.";
-      errorElement.style.display = "block";
+      document.getElementById("loginError").textContent = err.message;
+      document.getElementById("loginError").style.display = "block";
     } finally {
+      const submitButton = loginForm.querySelector(".submit-btn");
       submitButton.disabled = false;
       submitButton.textContent = "Log In";
     }
   });
-
-  // Prefill email if remembered
-  if (localStorage.getItem("rememberMe") === "true") {
-    document.getElementById("rememberMe").checked = true;
-    const savedEmail = localStorage.getItem("userEmail");
-    if (savedEmail) document.getElementById("loginEmail").value = savedEmail;
-  }
 });
-    </script>
-  </body>
-  
+  </script>
+</body>
+</html>

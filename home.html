@@ -11,6 +11,7 @@
 </head>
 <body>
     <script src="assets/js/script.js"></script>
+
     <header class="header">
         <a href="home.html" class="logo-link">
             <img src="assets/img/title.png" class="logo-img" alt="Alaga - Your Pet's Best Companion">
@@ -79,5 +80,31 @@
         <p><i>&#9825; Lovingly crafted by the Venusaur Team. 100% pet-friendly. &#9825;</i></p>
     </footer>
 
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Check authentication
+  try {
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser")) || 
+                       JSON.parse(localStorage.getItem("currentUser"));
+    
+    const justLoggedIn = sessionStorage.getItem("justLoggedIn");
+    
+    if (!currentUser) {
+      window.location.href = "index.html";
+      return;
+    }
+    
+    // Clear the session flag
+    sessionStorage.removeItem("justLoggedIn");
+    
+    // Load home page content
+    console.log("Welcome, " + currentUser.name);
+    
+  } catch (e) {
+    console.error("Authentication error:", e);
+    window.location.href = "index.html";
+  }
+});
+    </script>
 </body>
 </html>

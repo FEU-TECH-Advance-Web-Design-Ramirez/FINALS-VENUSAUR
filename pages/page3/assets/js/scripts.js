@@ -1,23 +1,16 @@
-// Profile Page Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Load user data with error handling
-    let currentUser;
-    try {
-        currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || 
-                     JSON.parse(localStorage.getItem('currentUser'));
-    } catch (e) {
-        console.error('Error parsing user data:', e);
-        window.location.href = 'FINALS-VENUSAUR/index.html';
-        return;
-    }
-    
+    // Enhanced authentication check
+    const currentUser = getAuthenticatedUser();
     if (!currentUser) {
-        window.location.href = 'FINALS-VENUSAUR/index.html';
+        window.location.href = '../../index.html';
         return;
     }
     
-    // Display user info
+    // Display user info with enhanced features
     displayUserInfo(currentUser);
+    
+    // Setup logout button
+    setupLogout();
     
     // Display pets
     displayPets(currentUser.pets || []);
@@ -37,28 +30,132 @@ document.addEventListener('DOMContentLoaded', function() {
     setupMobileMenu();
 });
 
+// Enhanced authentication check
+function getAuthenticatedUser() {
+    try {
+        // Check for both the new format (currentUser object) and old format (separate keys)
+        const currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || 
+                         JSON.parse(localStorage.getItem('currentUser'));
+        
+        // If currentUser object exists, use it
+        if (currentUser) {
+            return currentUser;
+        }
+        
+        // Fallback to old format (from your login page)
+        const userId = localStorage.getItem('userId');
+        const userEmail = localStorage.getItem('userEmail');
+        const userName = localStorage.getItem('userName');
+        
+        if (userId && userEmail) {
+            return {
+                id: userId,
+                email: userEmail,
+                name: userName || 'User',
+                pets: [],
+                createdAt: new Date().toISOString()
+            };
+        }
+        
+        return null;
+    } catch (e) {
+        console.error('Authentication error:', e);
+        return null;
+    }
+}
+
+// Logout functionality
+function setupLogout() {
+    const logoutBtn = document.createElement('button');
+    logoutBtn.id = 'logoutBtn';
+    logoutBtn.className = 'logout-btn';
+    logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Log Out';
+    
+    // Add to profile header
+    const profileHeader = document.querySelector('.profile-header');
+    if (profileHeader) {
+        profileHeader.appendChild(logoutBtn);
+    }
+    
+    logoutBtn.addEventListener('click', () => {
+        // Clear all auth tokens
+        sessionStorage.removeItem('currentUser');
+        localStorage.removeItem('currentUser');
+        
+        // Redirect to login
+        window.location.href = '../../index.html';
+    });
+}
+
+// Enhanced user info display
 function displayUserInfo(user) {
+    if (!user) return;
+    
+    // Get elements
     const userName = document.getElementById('userName');
     const userEmail = document.getElementById('userEmail');
     const userAvatar = document.getElementById('userAvatar');
     const joinDate = document.getElementById('joinDate');
     
-    if (userName) userName.textContent = user.name || 'User';
-    if (userEmail) userEmail.textContent = user.email || '';
-    
-    // Create avatar initials
-    if (userAvatar) {
-        const initials = (user.name || 'User').split(' ').map(n => n[0]).join('').toUpperCase();
-        userAvatar.textContent = initials.slice(0, 2); // Limit to 2 characters
+    // Set values with fallbacks
+    if (userName) {
+        userName.textContent = user.name || 'User';
+        // Add title attribute for full name tooltip
+        userName.title = user.name || '';
     }
     
-    if (joinDate && user.createdAt) {
-        const date = new Date(user.createdAt).toLocaleDateString('en-US', {
-            year: 'numeric', 
-            month: 'long'
+    if (userEmail) {
+        userEmail.textContent = user.email || '';
+        userEmail.title = user.email || ''; // Add tooltip
+        // Make email clickable
+        userEmail.style.cursor = 'pointer';
+        userEmail.addEventListener('click', () => {
+            window.location.href = `mailto:${user.email}`;
         });
-        joinDate.textContent = `Member since ${date}`;
     }
+    
+    // Create avatar with fallback
+    if (userAvatar) {
+        const initials = (user.name || 'User')
+            .split(' ')
+            .map(n => n[0] ? n[0].toUpperCase() : '')
+            .join('')
+            .slice(0, 2);
+        
+        userAvatar.textContent = initials;
+        userAvatar.style.backgroundColor = stringToColor(user.email || 'user');
+        
+        // Add hover effect
+        userAvatar.style.transition = 'transform 0.3s';
+        userAvatar.addEventListener('mouseenter', () => {
+            userAvatar.style.transform = 'scale(1.1)';
+        });
+        userAvatar.addEventListener('mouseleave', () => {
+            userAvatar.style.transform = 'scale(1)';
+        });
+    }
+    
+    // Format join date
+    if (joinDate) {
+        const date = user.createdAt ? 
+            new Date(user.createdAt) : 
+            new Date(); // Fallback to current date
+        
+        joinDate.textContent = `Member since ${date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long' 
+        })}`;
+    }
+}
+
+// Helper function for avatar colors
+function stringToColor(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const hue = Math.abs(hash % 360);
+    return `hsl(${hue}, 70%, 60%)`;
 }
 
 function displayPets(pets) {
@@ -403,131 +500,121 @@ function initializeHealthCharts(pet, petId) {
     updateChart('weight');
 
     // Tab switching
-    document.querySelectorAll('.metric-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            document.querySelectorAll('.metric-tab').forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-            updateChart(this.dataset.chart);
+// Tab switching
+document.querySelectorAll('.metric-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        // Update UI
+        document.querySelectorAll('.metric-tab').forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
         });
+        this.classList.add('active');
+        this.setAttribute('aria-selected', 'true');
+        
+        // Update chart
+        const metricType = this.dataset.chart;
+        updateChart(metricType);
     });
-
+});
     // Metric form submission
-    const metricForm = document.getElementById('metricForm');
-    if (metricForm) {
-        metricForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const metricType = document.getElementById('metricType').value;
-            const metricDate = document.getElementById('metricDate').value;
-            const metricValue = document.getElementById('metricValue').value;
-            
-            // Validate inputs
-            if (!metricDate) {
-                alert('Please select a date');
-                return;
-            }
-            
-            if (!metricValue || isNaN(parseFloat(metricValue))) {
-                alert('Please enter a valid number');
-                return;
-            }
-            
-            const newEntry = {
-                date: metricDate,
-                value: parseFloat(metricValue),
-                notes: document.getElementById('metricNotes').value.trim()
-            };
+// Metric form submission
+const metricForm = document.getElementById('metricForm');
+if (metricForm) {
+    metricForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const metricType = document.getElementById('metricType').value;
+        const metricDate = document.getElementById('metricDate').value;
+        const metricValue = parseFloat(document.getElementById('metricValue').value);
+        const metricNotes = document.getElementById('metricNotes').value;
 
-            // Get the current user and pet
-            const currentUser = getCurrentUser();
-            
-            if (currentUser && currentUser.pets && currentUser.pets[petId]) {
-                const currentPet = currentUser.pets[petId];
-                
-                // Initialize health data if not exists
-                if (!currentPet.healthData) {
-                    currentPet.healthData = {
-                        weight: [],
-                        food: [],
-                        activity: [],
-                        vetVisits: []
-                    };
-                }
-                
-                // Initialize metric type array if not exists
-                if (!currentPet.healthData[metricType]) {
-                    currentPet.healthData[metricType] = [];
-                }
-                
-                // Add new entry and sort by date
-                currentPet.healthData[metricType].push(newEntry);
-                currentPet.healthData[metricType].sort((a, b) => new Date(a.date) - new Date(b.date));
-                
-                // Update storage
-                updateUserData(currentUser);
-                
-                // Update chart
-                updateChart(metricType);
-                
-                // Reset form
-                e.target.reset();
-                
-                // Show success message
-                alert('Data added successfully!');
-            }
-        });
-    }
+        if (!metricDate || isNaN(metricValue)) {
+            alert("Please enter valid date and value");
+            return;
+        }
+
+        const currentUser = getCurrentUser();
+        if (!currentUser?.pets?.[petId]) {
+            alert("Pet not found");
+            return;
+        }
+
+        const newEntry = {
+            date: metricDate,
+            value: metricValue,
+            notes: metricNotes
+        };
+
+        // Initialize array if doesn't exist
+        if (!currentUser.pets[petId].healthData[metricType]) {
+            currentUser.pets[petId].healthData[metricType] = [];
+        }
+
+        // Add new entry
+        currentUser.pets[petId].healthData[metricType].push(newEntry);
+        
+        // Sort by date
+        currentUser.pets[petId].healthData[metricType].sort((a, b) => 
+            new Date(a.date) - new Date(b.date)
+        );
+
+        // Update storage and UI
+        updateUserData(currentUser);
+        updateChart(metricType);
+        this.reset();
+        
+        showToast("Measurement added successfully!");
+    });
+}
 
     // Update chart function
     function updateChart(metricType) {
-        const currentUser = getCurrentUser();
+        console.log("Updating chart for:", metricType); // Debug
         
+        const currentUser = getCurrentUser();
         if (!currentUser || !currentUser.pets || !currentUser.pets[petId]) {
-            console.error('Pet data not found');
+            console.error("Pet data not available");
             return;
         }
-        
+    
         const pet = currentUser.pets[petId];
-        const data = pet.healthData?.[metricType] || [];
-        
-        // Destroy previous chart if exists
+        const data = pet.healthData[metricType] || [];
+        console.log("Chart data:", data); // Debug
+    
+        const chartCanvas = document.getElementById('healthChart');
+        const ctx = chartCanvas.getContext('2d');
+    
+        // Destroy previous chart
         if (window.currentHealthChart) {
             window.currentHealthChart.destroy();
         }
-
-        // Prepare chart data
-        const chartData = {
-            labels: data.map(item => formatShortDate(item.date)),
-            datasets: [{
-                label: `${getMetricLabel(metricType)} - ${pet.name || 'Pet'}`,
-                data: data.map(item => item.value),
-                borderColor: '#4CAF50',
-                backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                tension: 0.3,
-                fill: true,
-                pointRadius: 5,
-                pointHoverRadius: 7
-            }]
-        };
-
+    
         // Create new chart
         window.currentHealthChart = new Chart(ctx, {
             type: 'line',
-            data: chartData,
+            data: {
+                labels: data.map(item => new Date(item.date).toLocaleDateString()),
+                datasets: [{
+                    label: `${getMetricLabel(metricType)} - ${pet.name}`,
+                    data: data.map(item => item.value),
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
                     tooltip: {
                         callbacks: {
-                            afterLabel: function(context) {
+                            afterLabel: (context) => {
                                 const dataItem = data[context.dataIndex];
                                 return dataItem.notes ? `Notes: ${dataItem.notes}` : '';
                             }
                         }
-                    },
-                    legend: {
-                        position: 'top',
                     }
                 },
                 scales: {
@@ -535,25 +622,13 @@ function initializeHealthCharts(pet, petId) {
                         beginAtZero: metricType !== 'weight',
                         title: {
                             display: true,
-                            text: getYAxisLabel(metricType),
-                            font: {
-                                weight: 'bold'
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
+                            text: getYAxisLabel(metricType)
                         }
                     },
                     x: {
                         title: {
                             display: true,
-                            text: 'Date',
-                            font: {
-                                weight: 'bold'
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
+                            text: 'Date'
                         }
                     }
                 }
