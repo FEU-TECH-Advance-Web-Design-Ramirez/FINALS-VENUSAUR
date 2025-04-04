@@ -1,68 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up | Alaga</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up | Alaga</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
-    <div class="signup-container">
-        <div class="signup-header">
-            <img src="assets/img/paw-icon.png" alt="Alaga Logo" class="signup-logo">
-            <div class="signup-title">Create Account</div>
-            <div class="signup-subtitle">Join Alaga to care for your pets</div>
-        </div>
-        
-        <form id="signupForm">
-            <div id="errorMessage" class="error-message" style="display: none;"></div>
-            
-            <div class="form-group">
-                <label for="fullname" class="form-label">Full Name</label>
-                <input type="text" id="fullname" class="form-input" placeholder="Your name" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
-            </div>
-            
-            <div class="form-group password-container">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" id="password" class="form-input" placeholder="Create password (min 8 characters)" required>
-                <button type="button" id="togglePassword" class="toggle-password">👁️</button>
-            </div>
-            
-            <div class="form-group password-container">
-                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" required>
-                <button type="button" id="toggleConfirmPassword" class="toggle-password">👁️</button>
-            </div>
-            
-            <div class="pets-section">
-                <h3 class="pets-title">Your Pets</h3>
-                <div id="petsContainer">
-                    <!-- Pets will be added here -->
-                </div>
-                <button type="button" id="addPetBtn" class="add-pet-btn">
-                    <i class="fas fa-plus"></i> Add Another Pet
-                </button>
-            </div>
-            
-            <div class="form-group terms-container">
-                <input type="checkbox" id="agreeTerms" required>
-                <label for="agreeTerms">I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></label>
-            </div>
-            
-            <button type="submit" class="submit-btn">Sign Up</button>
-            
-            <div class="login-link">
-                Already have an account? <a href="../../login.html">Log in</a>
-            </div>
-        </form>
+  <div class="signup-container">
+    <div class="signup-header">
+      <img src="assets/img/paw-icon.png" alt="Alaga Logo" class="signup-logo"/>
+      <div class="signup-title">Create Account</div>
+      <div class="signup-subtitle">Join Alaga to care for your pets</div>
     </div>
 
-    <script src="assets/js/scripts.js"></script>
+    <form id="userForm">
+      <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+      <div class="form-group">
+        <label for="name" class="form-label">Full Name</label>
+        <input type="text" id="name" class="form-input" placeholder="Your name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" class="form-input" placeholder="your@email.com" required />
+      </div>
+
+      <div class="form-group password-container">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" class="form-input" placeholder="Create password (min 8 characters)" required minlength="8" />
+        <button type="button" id="togglePassword" class="toggle-password" aria-label="Toggle Password"><i class="fas fa-eye"></i></button>
+      </div>
+
+      <div class="form-group password-container">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" required minlength="8" />
+        <button type="button" id="toggleConfirmPassword" class="toggle-password" aria-label="Toggle Confirm Password"><i class="fas fa-eye"></i></button>
+      </div>
+
+      <div class="form-group terms-container">
+        <input type="checkbox" id="agreeTerms" required />
+        <label for="agreeTerms">I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></label>
+      </div>
+
+      <button type="submit" class="submit-btn">Sign Up</button>
+
+      <div class="login-link">
+        Already have an account? <a href="../../index.html">Log in</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Axios CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.8.3/axios.min.js"></script>
+
+  <!-- Inline password toggle -->
+  <script>
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("password");
+
+    const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+
+    togglePassword?.addEventListener("click", () => {
+      const isVisible = passwordInput.type === "text";
+      passwordInput.type = isVisible ? "password" : "text";
+      togglePassword.innerHTML = isVisible ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    });
+
+    toggleConfirmPassword?.addEventListener("click", () => {
+      const isVisible = confirmPasswordInput.type === "text";
+      confirmPasswordInput.type = isVisible ? "password" : "text";
+      toggleConfirmPassword.innerHTML = isVisible ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    });
+  </script>
+
+  <!-- Signup Logic -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const API_URL = "https://demo-api-skills.vercel.app/api/PetLover";
+      const userForm = document.getElementById("userForm");
+      const submitButton = userForm?.querySelector(".submit-btn");
+
+      async function signupUser(name, email, password) {
+        try {
+          if (password.length < 8) {
+            throw new Error("Password must be at least 8 characters long");
+          }
+
+          submitButton.disabled = true;
+          submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing up...';
+
+          const response = await axios.post(`${API_URL}/users`, {
+            name,
+            email,
+            password
+          });
+
+          if (response.status === 201) {
+  localStorage.setItem("userId", response.data.id);
+  localStorage.setItem("userEmail", email);
+  localStorage.setItem("userName", name);
+
+  // Save password locally for login simulation
+  localStorage.setItem("userPassword", password);
+
+  alert("Signup successful! Redirecting to home...");
+  window.location.href = "../../home.html";
+}
+        } catch (error) {
+          const errorElement = document.getElementById("errorMessage");
+          errorElement.style.display = "block";
+          errorElement.innerText =
+            error.response?.data?.message ||
+            error.message ||
+            "Signup failed. Please try again.";
+          console.error("Signup error:", error);
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = "Sign Up";
+        }
+      }
+
+      userForm?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const confirmPassword = document.getElementById("confirmPassword").value.trim();
+        const errorElement = document.getElementById("errorMessage");
+
+        errorElement.style.display = "none";
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          errorElement.style.display = "block";
+          errorElement.innerText = "Please enter a valid email address.";
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          errorElement.style.display = "block";
+          errorElement.innerText = "Passwords do not match.";
+          return;
+        }
+
+        if (!document.getElementById("agreeTerms").checked) {
+          errorElement.style.display = "block";
+          errorElement.innerText = "You must agree to the Terms of Service.";
+          return;
+        }
+
+        if (name && email && password && confirmPassword) {
+          try {
+            await signupUser(name, email, password);
+          } catch {
+            // Errors handled inside signupUser
+          }
+        } else {
+          errorElement.style.display = "block";
+          errorElement.innerText = "Please fill in all fields.";
+        }
+      });
+    });
+  </script>
 </body>
 </html>
